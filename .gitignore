@@ -1,0 +1,15 @@
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+migrations/
+settings.py
+db.sqlite3
+media
+
+### Environments ###x
+*.env
+
+### ImageDiff ###
+*.json

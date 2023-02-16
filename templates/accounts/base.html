@@ -1,0 +1,25 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <link rel="icon" href="{% static "common/img/favicon.ico" %}">
+    <meta charset="UTF-8">
+    {% block additional_meta %}
+    {% endblock additional_meta %}
+    <meta name="robots" content="NONE,NOARCHIVE">
+    <title>Imagediff | {% block title_name %}{% endblock title_name %}</title>
+    <script src="{% static 'jquery/js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "common/css/reset.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "common/css/common.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "common/css/message.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "fontawesome/css/all.min.css" %}">
+    {% block additional_script %}
+    {% endblock additional_script %}
+  </head>
+  <body>
+    {% block content %}
+    {% endblock content %}
+  </body>
+</html>

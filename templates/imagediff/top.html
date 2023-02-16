@@ -1,0 +1,127 @@
+{% extends 'imagediff/base.html' %}
+{% load i18n static %}
+
+{% block additional_meta %}
+<meta name="viewport" content="width=600">
+{% endblock additional_meta %}
+
+{% block title_name %}Top{% endblock title_name %}
+
+{% block additional_script %}
+<link rel="stylesheet" type="text/css" href="{% static "imagediff/css/top.css" %}">
+{% endblock additional_script %}
+
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+    <table>
+        <tr>
+            <td colspan="3">
+                <div class="text-center">
+                    <img src="{% static "common/img/logo_imagediff_black.gif" %}" class="img-fluid" alt="Responsive image">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="text-center">
+                    <a href="?page=camera_1send" class="btn btn-circle btn-orange">
+                        <i class="fas fa-camera">1</i>
+                        <br>撮影開始
+                        <i class="fas fa-angle-down fa-position-bottom"></i>
+                    </a>
+                </div>
+            </td>
+            <td>
+                <div class="text-center">
+                    <a href="?page=camera" class="btn btn-circle btn-red">
+                        <i class="fas fa-camera">2</i>
+                        <br>撮影開始
+                        <i class="fas fa-angle-down fa-position-bottom"></i>
+                    </a>
+                </div>
+            </td>
+            <td>
+                <div class="text-center">
+                    <a href="?page=config" class="btn btn-circle btn-green">
+                        <i class="fas fa-wrench"></i>
+                        <br>個別設定
+                        <i class="fas fa-angle-down fa-position-bottom"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="text-center">
+                    <a href="?page=alert" class="btn btn-circle btn-blue">
+                        <i class="fas fa-database"></i>
+                        <br>警告ＤＢ
+                        <i class="fas fa-angle-down fa-position-bottom"></i>
+                    </a>
+                </div>
+            </td>
+            <td>
+                <div class="text-center">
+                    <a href="?page=word" class="btn btn-circle btn-purple">
+                        <i class="fas fa-font"></i>
+                        <br>変換文字
+                        <i class="fas fa-angle-down fa-position-bottom"></i>
+                    </a>
+                </div>
+            </td>
+            <td>
+                <div class="text-center">
+                    <a href="?page=log" class="btn btn-circle btn-yellow">
+                        <i class="fas fa-memory"></i>
+                        <br>ログ参照
+                        <i class="fas fa-angle-down fa-position-bottom"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <div class="text-center">
+                    <a href="?page=logout" class="btn btn-circle btn-gray">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <br>ログアウト
+                        <i class="fas fa-angle-down fa-position-bottom"></i>
+                    </a>
+                </div>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+</form>
+<hr>
+<footer class="footer">
+    <table>
+        <colgroup>
+            <col style="width:33%">
+            <col style="width:33%">
+            <col style="width:33%">
+        </colgroup>
+        <tr>
+            <td class="p-0">
+                <div class="text-center">
+                    <a class="text-muted" href="../../accounts/terms_service/" target="_blank">利用規約</a>
+                </div>
+            </td>
+            <td class="p-0">
+                <div class="text-center">
+                    <a class="text-muted" href="../../accounts/privacy_policy/" target="_blank">プライバシーポリシー</a>
+                </div>
+            </td>
+            <td class="p-0">
+                <div class="text-center">
+                    <a class="text-muted" href="mailto:{{ mail }}?subject=Imagediffに関する問い合わせ&amp;body=ご記入ください">お問い合わせ</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="text-center pt-1">Copyright © 2020 SigmaWind</div>
+</footer>
+{% endblock content %}

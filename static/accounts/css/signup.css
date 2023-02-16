@@ -1,0 +1,74 @@
+/* テーブル */
+table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 479px) {
+    table.step th{
+        font-size: 50%;
+    }
+}
+
+table.step th, table.step td {
+    padding: 20px 15px;
+}
+
+th.color-blue {
+    background-color: #1e50a2;
+    color: #fff;
+}
+
+table.plan {
+    width: 100%;
+}
+
+@media screen and (max-width: 479px) {
+    table.plan th, table.plan td{
+        font-size: 50%;
+    }
+}
+
+table.plan th, table.plan td {
+    padding: 10px 5px;
+}
+
+table.plan th.color-blue {
+    width: 23%;
+    background-color: #4c6cb3;
+    color: #fff;
+}
+
+table.plan th.space {
+    width: 2%;
+    background-color: #fff;
+}
+
+table.plan td {
+    text-align: center;
+}
+
+table.plan td.color-brown1 {
+    background-color: #e7e7eb;
+}
+
+table.plan td.color-brown2 {
+    background-color: #fef4f4;
+}
+
+table.message th, table.message td {
+    padding: 20px 15px;
+}
+
+
+/* チェックボックス */
+.checkbox-size-xl {
+  width: 1.85rem;
+  height: 1.85rem;
+}
+
+.checkbox-size-xl-label {
+  padding-top: 0.42rem;
+  padding-left: 0.9rem;
+}

@@ -1,0 +1,201 @@
+/* 見出し */
+h2 {
+    position: relative;
+    padding: 0.5rem 1.5rem;
+    border-bottom: 3px solid #000;
+    border-left: 3px solid #000;
+    border-radius: 0 0 0 20px;
+}
+
+h2:before {
+    position: absolute;
+    right: 50px;
+    bottom: -21px;
+    width: 0;
+    height: 0;
+    content: '';
+    border-width: 21px 21px 0 0;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
+}
+
+h2:after {
+    position: absolute;
+    right: 54px;
+    bottom: -14px;
+    width: 0;
+    height: 0;
+    content: '';
+    border-width: 14px 14px 0 0;
+    border-style: solid;
+    border-color: #fff transparent transparent transparent;
+}
+
+h2:first-letter {
+    font-size: 150%;
+    color: #3e62ad;
+}
+
+/* ボタン */
+.clear-decoration {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+/* フォント */
+.color-red {
+    color: #ff0000;
+}
+
+.color-blue {
+    color: #0000ff;
+}
+
+.color-green {
+    color: #008000;
+}
+
+.size-xx-large {
+    font-size: xx-large;
+}
+
+.size-x-large {
+    font-size: x-large;
+}
+
+.size-large {
+    font-size: large;
+}
+
+.size-medium {
+    font-size: medium;
+}
+
+.size-small {
+    font-size: small;
+}
+
+/* テーブル */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table.second-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/* th, td {
+    padding: 10px 10px;
+} */
+
+table.first-table th {
+    border-top: 0;
+}
+
+th.bottom-none {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+th.top-none {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    /* width: 16.6%; */
+}
+
+th.font-white {
+    background-color: #696969;
+    color: #fff
+}
+
+th {
+    /* width: 25%; */
+    background-color: #ddd;
+}
+
+th.border-none {
+    border-right: none;
+}
+
+table.second-table td {
+    border-bottom: 1px solid #aaa;
+}
+
+table.first-table tr:last-child td {
+    border-bottom: 1px solid #aaa;
+}
+
+td.center {
+    text-align: center;
+}
+
+td.border-right-dotted, th.border-right-dotted {
+    border-right: 1px solid #aaa;
+    border-right-style: dotted;
+}
+
+table.title-table td {
+    padding: 0;
+    padding-top: 0.25rem;
+}
+
+th.padding-none, td.padding-none {
+    padding: 0;
+}
+
+/* 画像 */
+img {
+    width: 100%;
+}
+
+/* セレクトメニュー */
+.selectDesign {
+    overflow: hidden;
+    width: 100%;
+    margin: 2em auto;
+    text-align: center;
+    position: relative;
+    border-radius: 2px;
+    border: 2px solid #5654a2;
+    border-radius: 50px;
+    background: #ffffff;
+}
+
+.selectDesign select {
+    width: 100%;
+    padding-right: 1em;
+    cursor: pointer;
+    text-indent: 0.01px;
+    text-overflow: ellipsis;
+    border: none;
+    outline: none;
+    background: transparent;
+    background-image: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 8px 38px 8px 8px;
+    color: #5654a2;
+}
+
+.selectDesign select::-ms-expand {
+    display: none;
+}
+
+.selectDesign::before {
+    position: absolute;
+    top: 0.8em;
+    right: 0.8em;
+    width: 0;
+    height: 0;
+    padding: 0;
+    content: '';
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #5654a2;
+    pointer-events: none;
+}

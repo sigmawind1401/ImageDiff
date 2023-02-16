@@ -1,0 +1,169 @@
+{% extends 'accounts/signup_base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<form method="post" action="">{% csrf_token %}
+    <div class="form-inner">
+        <h2 class="display-5">新規登録</h2>
+
+        <hr>
+
+        <div class="form-group">
+            <label for="id_username" class="col-form-label-lg mb-0">ユーザー名</label>
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fas fa-user"></i><span>
+                </div>
+                {% render_field form.username class="form-control" placeholder="半角英数記号のみ" aria-label="Username" aria-describedby="inputGroup-sizing-lg" %}
+            </div>
+            {% if form.username.errors %}
+            <ul class="messagelist">
+                {% for error in form.username.errors %}
+                <li class="error">{{ error|capfirst }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if messages %}
+            <ul class="messagelist">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_email" class="col-form-label-lg mb-0">メールアドレス</label>
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="far fa-envelope"></i></span>
+                </div>
+                {% render_field form.email class="form-control" placeholder="" aria-label="Email" aria-describedby="inputGroup-sizing-lg" required="" %}
+            </div>
+            {% if form.email.errors %}
+            <ul class="messagelist">
+                {% for error in form.email.errors %}
+                <li class="error">{{ error|capfirst }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_password1" class="col-form-label-lg mb-0">パスワード</label>
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fas fa-key"></i></span>
+                </div>
+                {% render_field form.password1 class="form-control" placeholder="半角英数記号のみ" aria-label="password" aria-describedby="inputGroup-sizing-lg" %}
+            </div>
+            {% if form.password1.errors %}
+            <ul class="messagelist">
+                {% for error in form.password1.errors %}
+                <li class="error">{{ error|capfirst }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_password2" class="col-form-label-lg mb-0">パスワード（確認用）</label>
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fas fa-key"></i></span>
+                </div>
+                {% render_field form.password2 class="form-control" placeholder="" aria-label="password" aria-describedby="inputGroup-sizing-lg" %}
+            </div>
+            {% if form.password2.errors %}
+            <ul class="messagelist">
+                {% for error in form.password2.errors %}
+                <li class="error">{{ error|capfirst }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input checkbox-size-xl" type="checkbox" id="checkAgree" required="">
+                <label class="form-check-label checkbox-size-xl-label" for="checkAgree"><a href="../terms_service/" target="_blank">利用規約</a>および<a href="../privacy_policy/" target="_blank">プライバシーポリシー</a>に同意する</label>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary btn-lg" name="signup"><i class="fas fa-user-plus fas-fw"></i> 登録</button>
+        </div>
+
+        {% comment %} <h2>新規登録</h2>
+        <div>
+            <div class="underline">
+                {{ form.username }}
+                <label for="username">ユーザー名</label>
+                <span class="placeholder">ユーザー名</span>
+            </div>
+            {% if form.username.errors %}
+            <ul class="messagelist">
+                {% for error in form.username.errors %}
+                <li class="error">{{ error|capfirst }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if messages %}
+            <ul class="messagelist">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div>
+            <div class="underline">
+                {{ form.email }}
+                <label for="email">メールアドレス</label>
+                <span class="placeholder">メールアドレス</span>
+            </div>
+            {% if form.email.errors %}
+            <ul class="messagelist">
+                {% for error in form.email.errors %}
+                <li class="error">{{ error|capfirst }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="half">
+            <div class="underline">
+                {{ form.password1 }}
+                <label for="password1">パスワード</label>
+                <span class="placeholder">パスワード</span>
+            </div>
+            {% if form.password1.errors %}
+            <ul class="messagelist">
+                {% for error in form.password1.errors %}
+                <li class="error">{{ error|capfirst }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="half">
+            <div class="underline">
+                {{ form.password2 }}
+                <label for="password2">パスワード（確認用）</label>
+                <span class="placeholder">パスワード（確認用）</span>
+            </div>
+            {% if form.password2.errors %}
+            <ul class="messagelist">
+                {% for error in form.password2.errors %}
+                <li class="error">{{ error|capfirst }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="buttons">
+            <div>
+                <button type="submit" tabindex="14">登録</button>
+            </div>
+        </div> {% endcomment %}
+    </div>
+</form>
+{% endblock %}

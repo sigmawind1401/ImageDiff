@@ -1,0 +1,118 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>top</title>
+    <link rel="stylesheet" type="text/css" href="{% static "common/css/reset.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "common/css/message.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "common/css/input.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "fontawesome/css/all.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "accounts/css/signup.css" %}">
+    <script src="{% static 'jquery/js/jquery.js' %}"></script>
+    <script src="{% static 'common/js/input.js' %}"></script>
+    <script src="{% static 'common/js/modernizr.js' %}"></script>
+  </head>
+  <body>
+    <table>
+        <tr>
+            <th {% if step == 1 %}class="color-blue"{% endif %}><i class="fas fa-angle-right"></i> 1. 新規登録</th>
+            <th {% if step == 2 %}class="color-blue"{% endif %}><i class="fas fa-angle-right"></i> 2. メール認証</th>
+            <th {% if step == 3 %}class="color-blue"{% endif %}><i class="fas fa-angle-right"></i> 3. 利用プラン選択</th>
+            <th {% if step == 4 %}class="color-blue"{% endif %}><i class="fas fa-angle-right"></i> 4. 登録完了</th>
+        </tr>
+    </table>
+    {% comment %} {% if form.errors %}
+    <ul class="messagelist">
+        {% for field in form %}
+            {% for error in field.errors %}
+            <li class="error">{{ field.label_tag }}{{ error|capfirst }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    {% endif %} {% endcomment %}
+    <form method="post" action="{% url "signup" step %}">{% csrf_token %}
+        <div class="form-inner">
+            {% if step == 1 %}
+            <h2>新規登録</h2>
+            <div>
+                <div class="underline">
+                    {{ form.username }}
+                    <label for="username">ユーザー名</label>
+                    <span class="placeholder">ユーザー名</span>
+                </div>
+                {% if form.username.errors %}
+                <ul class="messagelist">
+                    {% for error in form.username.errors %}
+                    <li class="error">{{ error|capfirst }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div>
+                <div class="underline">
+                    {{ form.email }}
+                    <label for="email">メールアドレス</label>
+                    <span class="placeholder">メールアドレス</span>
+                </div>
+                {% if form.email.errors %}
+                <ul class="messagelist">
+                    {% for error in form.email.errors %}
+                    <li class="error">{{ error|capfirst }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="half">
+                <div class="underline">
+                    {{ form.password1 }}
+                    <label for="password1">パスワード</label>
+                    <span class="placeholder">パスワード</span>
+                </div>
+                {% if form.password1.errors %}
+                <ul class="messagelist">
+                    {% for error in form.password1.errors %}
+                    <li class="error">{{ error|capfirst }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="half">
+                <div class="underline">
+                    {{ form.password2 }}
+                    <label for="password2">パスワード（確認用）</label>
+                    <span class="placeholder">パスワード（確認用）</span>
+                </div>
+                {% if form.password2.errors %}
+                <ul class="messagelist">
+                    {% for error in form.password2.errors %}
+                    <li class="error">{{ error|capfirst }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="buttons">
+                <div>
+                    <button type="submit" tabindex="14">登録</button>
+                </div>
+            </div>
+            {% elif step == 2 %}
+            <h2>メール認証</h2>
+            <table>
+                <tr>
+                    <th>認証メールを送信しました<th>
+                </tr>
+                <tr>
+                    <td>メール内のＵＲＬをクリックして、認証を完了させてください。</td>
+                </tr>
+            </table>
+            {% elif step == 3 %}
+            <h2>利用プラン選択</h2>
+
+            {% elif step == 4 %}
+            <h2>登録完了</h2>
+            {% endif %}
+        </div>
+    </form>
+  </body>
+</html>

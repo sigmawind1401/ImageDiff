@@ -1,0 +1,66 @@
+{% extends 'imagediff/base.html' %}
+{% load i18n static %}
+
+{% block additional_meta %}
+<meta name="viewport" content="width=600">
+{% endblock additional_meta %}
+
+{% block title_name %}Camera{% endblock title_name %}
+
+{% block additional_script %}
+<script src="{% static 'imagediff/js/camera_1send.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "imagediff/css/camera.css" %}">
+{% endblock additional_script %}
+
+{% block content %}
+{% if messages %}
+<ul class="messagelist">
+  {% for message in messages %}
+  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<form action="/imagediff/result/" method="post">{% csrf_token %}
+  <input type="hidden" name="imgData1" value="">
+  <input type="hidden" name="send_type" value="1">
+  <input type="hidden" name="facingMode" value="{{ facingMode }}">
+  <div style="display: none">  
+    <input type="submit" name="viewResult" id="viewResult" value="">
+  </div>
+</form>
+
+<div id="shutter" data-toggle="modal" data-target="#modal0">
+  <video id="camera" width="" height=""></video>
+</div>
+
+{% comment %} <div id="dialog" style="display: none">
+  <canvas id="reviewImage" width="" height=""></canvas>
+</div> {% endcomment %}
+
+<div class="modal fade" id="modal0" tabindex="-1" role="dialog" aria-labelledby="modalLabel0" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel0">撮影画像確認</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <div class="text-center">
+                <canvas id="reviewImage" width="" height=""></canvas>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-lg w-50" data-dismiss="modal">NG</button>
+                <button type="button" class="btn btn-success btn-lg w-50" name="send">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="send" style="display: none">
+  <canvas id="sendImage1" width="" height=""></canvas>
+</div>
+{% endblock content %}

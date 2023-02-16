@@ -1,0 +1,81 @@
+{% extends 'imagediff/base.html' %}
+{% load i18n static widget_tweaks %}
+
+{% block additional_meta %}
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+{% endblock additional_meta %}
+
+{% block title_name %}Log{% endblock title_name %}
+
+{% block additional_script %}
+<script src="{% static 'imagediff/js/lightbox.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "imagediff/css/lightbox.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "common/css/datepicker.css" %}">
+{{ form.media }}
+{% endblock additional_script %}
+
+{% block content %}
+{% if messages %}
+<ul class="messagelist">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<form action="" method="post">{% csrf_token %}
+    <div class="form-inner">
+        <h2 class="display-6">ログ参照<small class="text-danger">　※ 保管期間は半年となります</small></h2>
+
+        <hr>
+
+        <label class="col-form-label-lg mb-0">期間指定</label>
+        <div class="form-group form-inline">
+            <div class="input-group pr-3 pb-3">
+                {% render_field form.startDate class="form-control" placeholder="開始日" aria-label="startDate" %}
+            </div>         
+            <div class="input-group pr-3 pb-3">
+                {% render_field form.endDate class="form-control" placeholder="終了日" aria-label="endDate" %}
+            </div>       
+            <div class="input-group pr-3 pb-3">
+                <button type="submit" class="btn btn-outline-secondary" name="searchLog"><i class="fas fa-search fa-fw"></i>検索</button>
+            </div>
+        </div>
+
+        <table class="table table-sm table-striped">
+            <colgroup>
+                <col style="width:30%">
+                <col style="width:60%">
+                <col style="width:10%">
+            </colgroup>
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">実行日時</th>
+                    <th scope="col">実行結果</th>
+                    <th scope="col">画像</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for log in logList %}
+                <tr>
+                    <td>{{ log.0 }}</td>
+                    <td>
+                    {% for result in log.1 %}
+                        {{ result }}<br>
+                    {% endfor %}
+                    </td>
+                    <td>
+                        {% if log.2 %}<a href="{{ log.2 }}" data-lightbox="group"><img src="{{ log.2 }}" width="90%"></a>{% endif %}
+                        {% if log.3 %}<a href="{{ log.3 }}" data-lightbox="group"><img src="{{ log.3 }}" width="90%"></a>{% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <hr>
+
+        <button type="submit" class="btn btn-secondary" name="back"><i class="fas fa-arrow-left fa-fw"></i>戻る</button>
+
+    </div>
+</form>
+{% endblock content %}

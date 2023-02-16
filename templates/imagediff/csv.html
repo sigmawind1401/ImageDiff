@@ -1,0 +1,158 @@
+{% extends 'imagediff/base.html' %}
+{% load i18n static %}
+
+{% block additional_meta %}
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+{% endblock additional_meta %}
+
+{% block title_name %}Csv{% endblock title_name %}
+
+{% block additional_script %}
+<link rel="stylesheet" type="text/css" href="{% static "imagediff/css/csv.css" %}">
+{% endblock additional_script %}
+
+{% block content %}
+{% if messages %}
+<ul class="messagelist">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="form-inner">
+        <h2 class="display-5">CSVファイル取込</h2>
+
+        <hr>
+
+        <div class="form-group">                
+            <label for="id_csvfile" class="col-form-label-lg mb-0">{{ form.csvfile.label }}</label>     
+            <small class="text-danger">※ 文字コード：UTF-8 のファイルのみ取込みできます。</small>           
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fas fa-file-csv"></i><span>
+                </div>
+                {{ form.csvfile }}
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-secondary" name="readCsv">取込</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-form-label-lg mb-0">Step2. 検索ワード列指定</label>
+            <div class="container-fluid">
+                <div class="row justify-content-between">
+                    <div class="custom-control custom-checkbox">
+                        {{ form.wordSpaceDelHalf }}
+                        <label class="custom-control-label" for="{{ form.wordSpaceDelHalf.auto_id }}">{{ form.wordSpaceDelHalf.label }}</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        {{ form.wordSpaceDelFull }}
+                        <label class="custom-control-label" for="{{ form.wordSpaceDelFull.auto_id }}">{{ form.wordSpaceDelFull.label }}</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        {{ form.wordSpaceFullToHalf }}
+                        <label class="custom-control-label" for="{{ form.wordSpaceFullToHalf.auto_id }}">{{ form.wordSpaceFullToHalf.label }}</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        {{ form.wordFullToHalf }}
+                        <label class="custom-control-label" for="{{ form.wordFullToHalf.auto_id }}">{{ form.wordFullToHalf.label }}</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        {{ form.wordHalfToFull }}
+                        <label class="custom-control-label" for="{{ form.wordHalfToFull.auto_id }}">{{ form.wordHalfToFull.label }}</label>
+                    </div>
+                    <div class="input-group pl-0 pt-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">列指定</span>
+                        </div>
+                        <select name="wordSelectCol" class="custom-select" id="id_wordSelectCol">
+                        {% for option in options %}
+                            <option value="{{ option.0 }}">{{ option.1 }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-form-label-lg mb-0">Step3. コメント列指定</label>
+            <div class="container-fluid">
+                <div class="row justify-content-between">
+                    <div class="custom-control custom-checkbox">
+                        {{ form.cmtSpaceDelHalf }}
+                        <label class="custom-control-label" for="{{ form.cmtSpaceDelHalf.auto_id }}">{{ form.cmtSpaceDelHalf.label }}</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        {{ form.cmtSpaceDelFull }}
+                        <label class="custom-control-label" for="{{ form.cmtSpaceDelFull.auto_id }}">{{ form.cmtSpaceDelFull.label }}</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        {{ form.cmtSpaceFullToHalf }}
+                        <label class="custom-control-label" for="{{ form.cmtSpaceFullToHalf.auto_id }}">{{ form.cmtSpaceFullToHalf.label }}</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        {{ form.cmtFullToHalf }}
+                        <label class="custom-control-label" for="{{ form.cmtFullToHalf.auto_id }}">{{ form.cmtFullToHalf.label }}</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        {{ form.cmtHalfToFull }}
+                        <label class="custom-control-label" for="{{ form.cmtHalfToFull.auto_id }}">{{ form.cmtHalfToFull.label }}</label>
+                    </div>
+                    <div class="input-group pl-0 pt-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">列指定</span>
+                        </div>
+                        <select name="cmtSelectCol" class="custom-select" id="id_cmtSelectCol">
+                        {% for option in options %}
+                            <option value="{{ option.0 }}">{{ option.1 }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-form-label-lg mb-0">Step4. 警告DBへ追加</label>
+            <div class="container-fluid">
+                <div class="row justify-content-between">
+                    <div class="custom-control custom-checkbox">
+                        {{ form.addAlertDBIndexDel }}
+                        <label class="custom-control-label" for="{{ form.addAlertDBIndexDel.auto_id }}">{{ form.addAlertDBIndexDel.label }}</label>
+                    </div>
+                    <button type="submit" class="btn btn-secondary mt-2" name="addAlertDB">実行</button>
+                </div>
+            </div>
+            <div class="text-right"><small class="text-danger">※ 検索ワードに指定した列に重複があった場合、重複行は除外されます。</small></div>
+        </div>
+
+        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                {% for r in rows.0 %}
+                    <th><div class="text-center">{{ forloop.counter }}列目</div></th>
+                {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+                <tr>
+                {% for r in row %}
+                    <td>{{ r }}</td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <small class="text-danger">※ 先頭から10行まで表示しています。</small>
+
+        <hr>
+
+        <button type="submit" class="btn btn-secondary" name="back"><i class="fas fa-arrow-left fa-fw"></i>戻る</button>
+
+    </div>
+</form>
+{% endblock content %}

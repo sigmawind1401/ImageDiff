@@ -1,0 +1,249 @@
+{% extends 'imagediff/base.html' %}
+{% load i18n static %}
+
+{% block additional_meta %}
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+{% endblock additional_meta %}
+
+{% block title_name %}Config{% endblock title_name %}
+
+{% block additional_script %}
+<script src="{% static 'imagediff/js/config.js' %}"></script>
+{% endblock additional_script %}
+
+{% block content %}
+{% if messages %}
+<ul class="messagelist">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|linebreaksbr }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<form action="" method="post">{% csrf_token %}
+    <div class="form-inner">
+        <h2 class="display-5">個別設定</h2>
+
+        <hr>
+
+        <div class="form-group">
+            <label for="id_username" class="col-form-label-lg mb-0">ユーザー名</label>
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fas fa-user"></i><span>
+                </div>
+                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ data.0.user_name }}" disabled="disabled">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modal0">パスワード変更</button>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} <label>ユーザー名</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value="{{ data.0.user_name }}" disabled="disabled">
+        </div> {% endcomment %}
+
+        <div class="form-group">                
+            <label for="id_username" class="col-form-label-lg mb-0">参照警告ＤＢ</label>                
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fas fa-database"></i><span>
+                </div>
+                <input type="text" class="form-control" placeholder="AlertDB" aria-label="AlertDB" aria-describedby="basic-addon1" value="{{ data.0.alert_user_name }}" disabled="disabled">
+            </div>
+        </div>
+
+        {% comment %} <label>参照アラートＤＢ</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-database"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="AlertDB" aria-label="AlertDB" aria-describedby="basic-addon1" value="{{ data.0.alert_user_name }}" disabled="disabled">
+        </div> {% endcomment %}
+
+        <div class="form-group">
+            <label for="id_email" class="col-form-label-lg mb-0">メールアドレス</label>
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="far fa-envelope"></i></span>
+                </div>
+                <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" value="{{ data.0.email }}" name="email">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary" name="updateEmail">更新</button>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} <label>メールアドレス</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="far fa-envelope"></i></span>
+            </div>
+            <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" value="{{ data.0.email }}" name="email">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-secondary" name="updateEmail">更新</button>
+            </div>
+        </div> {% endcomment %}
+
+        <div class="form-group">
+            <label for="inputGroupSelect01" class="col-form-label-lg mb-0">一致文字数</label>
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fas fa-wrench"></i></span>
+                </div>                    
+                <select class="custom-select" id="inputGroupSelect01" name="matchLength">
+                    {% for option in optionList %}                    
+                    <option value="{{ option }}" {% if data.0.match_length == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary" name="updateMatchLength">更新</button>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} <label>一致文字数</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01"><i class="fas fa-wrench"></i></label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" name="matchLength">
+                {% for option in optionList %}                    
+                <option value="{{ option }}" {% if data.0.match_length == option %}selected{% endif %}>{{ option }}</option>
+                {% endfor %}
+            </select>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-secondary" name="updateMatchLength">更新</button>
+            </div>
+        </div> {% endcomment %}
+
+        <div class="form-group">
+            <label for="inputGroupSelect02" class="col-form-label-lg mb-0">カメラモード</label>
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fas fa-camera"></i></span>
+                </div>
+                <select class="custom-select" id="inputGroupSelect02" name="facingMode">
+                    <option value="0" {% if data.0.facing_mode == 0 %}selected{% endif %}>インカメラ</option>
+                    <option value="1" {% if data.0.facing_mode == 1 %}selected{% endif %}>バックカメラ</option>
+                </select>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary" name="updateFacingMode">更新</button>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} <label>カメラモード</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect02"><i class="fas fa-camera"></i></label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect02" name="facingMode">
+                <option value="0" {% if data.0.facing_mode == 0 %}selected{% endif %}>インカメラ</option>
+                <option value="1" {% if data.0.facing_mode == 1 %}selected{% endif %}>バックカメラ</option>
+            </select>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-secondary" name="updateFacingMode">更新</button>
+            </div>
+        </div> {% endcomment %}
+
+        <div class="form-group">
+            <label for="expirationDate" class="col-form-label-lg mb-0">有効期間</label>
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="far fa-calendar-times"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="ExpirationDate" aria-label="ExpirationDate" aria-describedby="basic-addon1" value="{{ data.0.expiration_date }}" disabled="disabled">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary" name="updateExpirationDate">更新</button>
+                </div>
+            </div>
+            <p class="text-danger">※有効期間満了後の各種データの保有期間は満了から1ヶ月となります</p>
+        </div>
+
+        {% comment %} <label>有効期限</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-times"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="ExpirationDate" aria-label="ExpirationDate" aria-describedby="basic-addon1" value="{{ data.0.expiration_date }}" disabled="disabled">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-secondary" name="updateExpirationDate">更新</button>
+            </div>
+        </div> {% endcomment %}
+
+        {% if data.0.frequency_limit != None %}
+        <div class="form-group">
+            <label for="expirationDate" class="col-form-label-lg mb-0">有効限度回数</label>
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fas fa-bomb"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="FrequencyLimit" aria-label="FrequencyLimit" aria-describedby="basic-addon1" value="{{ count }} / {{ data.0.frequency_limit }}" disabled="disabled">
+            </div>
+        </div>
+        {% endif %}
+
+        {% comment %} {% if data.0.frequency_limit != None %}
+        <label>限度回数</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-bomb"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="FrequencyLimit" aria-label="FrequencyLimit" aria-describedby="basic-addon1" value="{{ data.0.frequency_limit }}" disabled="disabled">
+        </div>
+        {% endif %} {% endcomment %}
+
+        <hr>
+
+        <button type="submit" class="btn btn-secondary" name="back"><i class="fas fa-arrow-left fa-fw"></i>戻る</button>
+
+        <div class="modal fade" id="modal0" tabindex="-1" role="dialog" aria-labelledby="modalLabel0" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel0">パスワード変更</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i><span>
+                                </div>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="古いパスワードを入力">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i><span>
+                                </div>
+                                <input type="password" class="form-control" id="new_password1" name="newPassword1" placeholder="新しいパスワードを入力">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i><span>
+                                </div>
+                                <input type="password" class="form-control" id="new_password2" name="newPassword2" placeholder="新しいパスワードを入力（確認用）">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary w-50" data-dismiss="modal">キャンセル</button>
+                        <button type="submit" class="btn btn-outline-secondary w-50" name="chgPassword">変更</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+{% endblock content %}

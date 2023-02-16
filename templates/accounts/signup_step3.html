@@ -1,0 +1,77 @@
+{% extends 'accounts/signup_base.html' %}
+{% load i18n static %}
+{% block additional_script %}
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'accounts/js/payments.js' %}"></script>
+{% endblock additional_script%}
+
+{% block content %}
+{% if messages %}
+<ul class="messagelist">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|linebreaksbr }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="form-inner">
+  <h2 class="display-5">利用プラン選択</h2>
+
+  <hr>
+
+  <table class="plan">
+    <tr>
+    {% if free_view == 1 %}
+      <th class="color-blue align-middle"><div class="text-center">1 Month<br>（試用プラン）</div></th>
+      <th class="space"></th>
+    {% endif %}
+      <th class="color-blue align-middle"><div class="text-center">1 Month</div></th>
+      <th class="space"></th>
+      <th class="color-blue align-middle"><div class="text-center">1 Year</div></th>
+      <th class="space"></th>
+      <th class="color-blue align-middle"><div class="text-center">3 Years</div></th>
+    </tr>
+    <tr>
+    {% if free_view == 1 %}
+      <td class="color-brown1">0 円</td>
+      <td></td>
+    {% endif %}
+      <td class="color-brown1">12,000 円</td>
+      <td></td>
+      <td class="color-brown1">132,000 円</td>
+      <td></td>
+      <td class="color-brown1">360,000 円</td>
+    </tr>
+    <tr>
+    {% if free_view == 1 %}
+      <td class="color-brown2">0 円 / 月</td>
+      <td></td>
+    {% endif %}
+      <td class="color-brown2">12,000 円 / 月</td>
+      <td></td>
+      <td class="color-brown2">11,000 円 / 月</td>
+      <td></td>
+      <td class="color-brown2">10,000 円 / 月</td>
+    </tr>
+    <tr>
+    {% if free_view == 1 %}
+      <td class="color-brown1"><form action="/payments/free/" method="post">{% csrf_token %}<button class="btn btn-primary" id="submit1" type="submit"><i class="fas fa-shopping-cart"></i></button></form></td>
+      <td></td>
+    {% endif %}
+      <td class="color-brown1"><button class="btn btn-primary" id="submit2"><i class="fas fa-shopping-cart"></i></button></td>
+      <td></td>
+      <td class="color-brown1"><button class="btn btn-primary" id="submit3"><i class="fas fa-shopping-cart"></i></button></td>
+      <td></td>
+      <td class="color-brown1"><button class="btn btn-primary" id="submit4"><i class="fas fa-shopping-cart"></i></button></td>
+    </tr>
+  </table>
+  {% if free_view == 1 %}
+  <br>
+  <span>※ 試用プランについて</span><br>
+  <span>　 1. 初回のみ利用可能となります。</span><br>
+  <span>　 2. 試用プランの終了条件は以下となります。</span><br>
+  <span>　 　 ・ 試用プラン開始から1ヶ月が経過</span><br>
+  <span>　 　 　　　または</span><br>
+  <span>　 　 ・ 試行回数が50回を超える</span><br>
+  {% endif %}
+</div>
+{% endblock content %}

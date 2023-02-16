@@ -1,0 +1,43 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Camera</title>
+    <script src="{% static 'jquery/js/jquery.js' %}"></script>
+    <script src="{% static 'jquery/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'imagediff/js/camera.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "common/css/reset.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "common/css/message.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "jquery/css/jquery-ui.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "imagediff/css/camera.css" %}">
+  </head>
+  <body>
+    {% if messages %}
+    <ul class="messagelist">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="/imagediff/result/" method="post">{% csrf_token %}
+      <input type="hidden" name="imgData1" value="">
+      <input type="hidden" name="imgData2" value="">
+      <div style="display: none">  
+        <input type="submit" name="viewResult" id="viewResult" value="">
+      </div>
+    </form>
+    <div id="shutter">
+      <video id="camera" width="" height=""></video>
+    </div>
+    <div id="dialog" style="display: none">
+      <canvas id="reviewImage" width="" height=""></canvas>
+    </div>
+    <div id="send" style="display: none">
+      <canvas id="sendImage1" width="" height=""></canvas>
+      <canvas id="sendImage2" width="" height=""></canvas>
+    </div>
+  </body>
+</html>

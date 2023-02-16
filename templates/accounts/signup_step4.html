@@ -1,0 +1,55 @@
+{% extends 'accounts/signup_base.html' %}
+{% block content %}
+<form method="post" action="">{% csrf_token %}
+    <div class="form-inner">
+    {% if mode == 0 %}
+        <h2>登録完了</h2>
+
+        <hr>
+
+        <table class="message">
+            <tr>
+                <th>登録が完了しました<th>
+            </tr>
+            <tr>
+                <td>試用プランを選択された方：<br>　以下のリンクより、画像内テキスト比較サービス「Imagediff tgt.Text」をご利用ください。</td>
+            </tr>
+            <tr>
+                <td>試用プラン以外を選択された方：<br>　ご登録いただいたメールアドレスに領収書を送信しました。<br>　領収書を確認後に以下のリンクより、画像内テキスト比較サービス「Imagediff tgt.Text」をご利用ください。</td>
+            </tr>
+            <tr>
+                <td>※ 領収書が届かない場合、<a href="mailto:{{ mail }}?subject=アカウント登録に関する問い合わせ&amp;body=ご記入ください">{{ mail }}</a>へお問い合わせください。</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="../../imagediff/top/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"><i class="fas fa-sign-in-alt fas-fw"></i> ログイン画面</a>
+                    <a href="../../imagediff/top/">http://localhost:8000/imagediff/top/</a>
+                </td>
+            </tr>
+        </table>
+    {% else %}
+        <h2>更新完了</h2>
+
+        <hr>
+
+        <table class="message">
+            <tr>
+                <th>更新が完了しました<th>
+            </tr>
+            <tr>
+                <td>ご登録いただいたメールアドレスに領収書を送信しました。<br>領収書を確認後に以下のリンクより、画像内テキスト比較サービス「Imagediff tgt.Text」を引き続きご利用ください。</td>
+            </tr>
+            <tr>
+                <td>※ 領収書が届かない場合、<a href="mailto:{{ mail }}?subject=アカウント登録に関する問い合わせ&amp;body=ご記入ください">{{ mail }}</a>へお問い合わせください。</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="../../imagediff/top/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"><i class="fas fa-sign-in-alt fas-fw"></i> ログイン画面</a>
+                    <a href="../../imagediff/top/">http://localhost:8000/imagediff/top/</a>
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+    </div>
+</form>
+{% endblock %}

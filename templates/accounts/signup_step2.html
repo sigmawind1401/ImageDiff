@@ -1,0 +1,19 @@
+{% extends 'accounts/signup_base.html' %}
+{% block content %}
+<form method="post" action="">{% csrf_token %}
+    <div class="form-inner">
+        <h2 class="display-5">メール認証</h2>
+
+        <hr>
+        
+        <table class="message">
+            <tr>
+                <th>認証メールを送信しました<th>
+            </tr>
+            <tr>
+                <td>メール内のＵＲＬをクリックして、認証を完了させてください。</td>
+            </tr>
+        </table>
+    </div>
+</form>
+{% endblock %}

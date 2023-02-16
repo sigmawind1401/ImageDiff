@@ -1,0 +1,147 @@
+<form novalidate>
+   <div class="form-inner">
+     <h2>Text, Email, Number, Password</h2>
+     <div>
+        <div class="underline">
+           <input type="text" tabindex="1" name="name" id="name"/>
+           <label for="name">Name</label>
+           <span class="placeholder">Name</span>
+        </div>
+     </div>
+    <div>
+        <div class="underline">
+           <input type="email" name="email" data-validation="email"  data-error="Please enter a valid email address" tabindex="2" id="email" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+           <label for="email">Email</label>
+           <span class="placeholder">Email</span>
+        </div>
+     </div>
+     <div class="half">
+        <div class="underline right-control prefixed">
+           <input name="budget" type="number" step="100" min="0" data-validation="number" data-error="Has to be a number" tabindex="3" id="budget"/>
+           <label for="budget">Budget</label>
+           <span class="prefix">$</span>
+           <span class="placeholder">Budget</span>
+           <div class="spinner-arrow up"><div></div></div>
+           <div class="spinner-arrow down"><div></div></div>
+        </div>
+     </div>
+     <div class="half">
+        <div class="underline">
+           <input name="password" type="password" id="password" data-validation="password" data-error="No less than 6 characters" tabindex="4"/>
+           <label for="password">Password</label>
+           <span class="placeholder">Password</span>
+        </div>
+     </div>
+
+    <h2>Checkbox</h2>
+    <div class="half no-label">
+      <div>
+        <input type="checkbox" name="checkbox1" id="checkbox1" value="true" />
+        <label for="checkbox1">Checkbox 1</label>
+        <span class="checkbox" tabindex="5">
+          <span></span>
+        </span>
+      </div>
+    </div>
+
+    <div class="half no-label">
+      <div>
+        <input type="checkbox" name="checkbox2" id="checkbox2" value="true"/>
+        <label for="checkbox2">Checkbox 2</label>
+        <span class="checkbox" tabindex="6">
+          <span></span>
+        </span>
+      </div>
+    </div>
+     <div class="half no-label">
+      <div>
+        <input type="checkbox" name="checkbox3" id="checkbox3" value="true"/>
+        <label for="checkbox3">Checkbox 3</label>
+        <span class="checkbox" tabindex="7">
+          <span></span>
+        </span>
+      </div>
+    </div> 
+    <div class="half no-label">
+      <div>
+        <input type="checkbox" name="checkbox4" id="checkbox4" value="true"/>
+        <label for="checkbox4">Checkbox 4</label>
+        <span class="checkbox" tabindex="8">
+          <span></span>
+        </span>
+      </div>
+    </div>
+  <h2>Select (desktop)</h2>
+    <div class="half dropdown">
+      <div class="underline right-control">
+        <input name="country" type="text" />
+        <label>Continent</label>
+        <span class="placeholder">Continent</span>
+        <div class="dropdown-arrow"><div></div></div>
+        <div class="dropdown-box">
+          <input class="focus-helper" type="text"/>
+          <div>
+            <div><p>Africa</p></div>
+            <div><p>North America</p></div>
+            <div><p>South America</p></div>
+            <div><p>Asia</p></div>
+            <div><p>Europe</p></div>
+            <div><p>Australia</p></div>
+            <div><p>Antarctica</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+     <h2>Select (mobile)</h2>
+    <div class="half dropdown">
+      <div class="underline right-control">
+        <input name="country" type="text"/>
+        <label>Continent</label>
+        <span class="placeholder">Continent</span>
+        <div class="dropdown-arrow"><div></div></div>
+      </div>
+      <select>
+          <option value="Africa">Africa</option>
+            <option value="North America">North America</option>
+            <option value="South America">South America</option>
+            <option value="Asia">Asia</option>
+            <option value="Europe">Europe</option>
+            <option value="Australia">Australia</option>
+            <option value="Antarctica">Antarctica</option>
+         </select>
+    </div>
+  <h2>Textarea</h2>
+    <div>
+      <div class="underline">
+        <textarea id="comments" name="comments" rows="1" tabindex="9" required></textarea>
+        <label for="comments">Comments</label>
+        <span class="placeholder">Comments</span>
+      </div>
+    </div>
+    <h2>Radio Button</h2>
+    <div class="half no-label">
+      <div>
+        <input type="radio" name="gender" checked value="male" id="gender-male"/>
+        <label for="gender-male">Male</label>
+        <span class="radio" tabindex="11">
+          <span></span>
+        </span>
+      </div>
+    </div>
+    <div class="half no-label">
+      <div>
+        <input type="radio" name="gender" value="female"  id="gender-female"/>
+        <label for="gender-female">Female</label>
+        <span class="radio" tabindex="12">
+          <span></span>
+        </span>
+      </div>
+    </div>
+    <h2>Button</h2>
+    <div class="buttons">
+      <div><button type="button" name="clear" tabindex="13">Clear</button></div>
+      <div><button type="submit" tabindex="14">Send</button></div>
+
+    </div>
+  </div>
+</form>

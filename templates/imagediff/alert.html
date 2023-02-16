@@ -1,0 +1,248 @@
+{% extends 'imagediff/base.html' %}
+{% load i18n static %}
+
+{% block additional_meta %}
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+{% endblock additional_meta %}
+
+{% block title_name %}Alert{% endblock title_name %}
+
+{% block additional_script %}
+<script src="{% static 'imagediff/js/alert.js' %}"></script>
+{% endblock additional_script %}
+
+{% block content %}
+{% if messages %}
+<ul class="messagelist">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<form action="" method="post">{% csrf_token %}
+    <div class="form-inner">
+        <h2 class="display-5">警告ＤＢ<small class="text-danger">　※ 登録上限は３万件となります</small></h2>
+
+        <hr>
+
+        <div class="form-group">                
+            <label for="id_username" class="col-form-label-lg mb-0">参照警告ＤＢ</label>                
+            <div class="input-group input-group-lg">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fas fa-database"></i><span>
+                </div>
+                <input type="text" class="form-control" placeholder="AlertDB" aria-label="AlertDB" aria-describedby="basic-addon1" value="{{ data.0.alert_user_name }}" disabled="disabled">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modal0" name="chgAlertDB">変更</button>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} <label>参照警告ＤＢ</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fas fa-database"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="AlertDB" aria-label="AlertDB" aria-describedby="basic-addon1" value="{{ data.0.alert_user_name }}" disabled="disabled">
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modal0" name="chgAlertDB">変更</button>
+            </div>
+        </div> {% endcomment %}
+
+        <hr>
+
+        <div class="container-fluid">
+            <div class="row justify-content-between">
+                <label class="col-form-label-lg mb-0">検索ワード一覧 (件数：{{ count }})</label>
+                <button type="submit" class="btn btn-outline-secondary mb-1" name="readCsv"><i class="fas fa-file-csv fa-fw"></i>CSV取込</button>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <colgroup>
+                <col style="width:30%">
+                <col style="width:50%">
+                <col style="width:20%">
+            </colgroup>
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">検索ワード</th>
+                    <th scope="col">コメント</th>
+                    <th scope="col">
+                        <div class="text-right">
+                            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modal1"><i class="fas fa-plus fa-fw"></i>追加</button>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            {% for alert in alertList %}
+                <tr>
+                    <td>{{ alert.alert_word }}</td>
+                    <td>{{ alert.alert_comment }}</td>
+                    <td>
+                        {% comment %} <div class="text-right">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#modal2" data-key="{{ alert.key }}" data-word="{{ alert.alert_word }}" data-comment="{{ alert.alert_comment }}"><i class="fas fa-edit fa-fw"></i>修正</button>
+                        </div> {% endcomment %}
+                        <div class="text-right">
+                            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modal3" data-key="{{ alert.key }}" data-word="{{ alert.alert_word }}" data-comment="{{ alert.alert_comment }}"><i class="fas fa-minus fa-fw"></i>削除</button>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tbody>
+            </tbody>
+        </table>
+        <div class="text-right">
+            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modal4"><i class="fas fa-minus fa-fw"></i>全件削除</button>
+        </div>
+
+        <div class="modal fade" id="modal0" tabindex="-1" role="dialog" aria-labelledby="modalLabel0" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel0">警告ＤＢ参照先変更</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            {% comment %} <label for="recipient-name" class="col-form-label">ユーザー名</label> {% endcomment %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i><span>
+                                </div>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="参照先のユーザー名を入力">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {% comment %} <label for="recipient-password" class="col-form-label">パスワード</label> {% endcomment %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i><span>
+                                </div>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="参照先のパスワードを入力">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary w-50" data-dismiss="modal">キャンセル</button>
+                        <button type="submit" class="btn btn-outline-secondary w-50" name="chgAlertDB">変更</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modalLabel1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel1">警告追加</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">検索ワード</label>
+                            <input type="text" class="form-control" id="alertWord1" name="alertWord1" maxlength="50" placeholder="最大50文字まで入力可">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">コメント</label>
+                            <textarea class="form-control" id="alertComment1" name="alertComment1" maxlength="254" rows="5" placeholder="最大254文字まで入力可"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary w-50" data-dismiss="modal">キャンセル</button>
+                        <button type="submit" class="btn btn-outline-secondary w-50" name="addAlertDB">追加</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modalLabel2" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel2">警告修正</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">警告ワード</label>
+                            <input type="text" class="form-control" id="alertWord2" name="alertWord2" maxlength="20" placeholder="最大20文字まで入力可">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">警告コメント</label>
+                            <textarea class="form-control" id="alertComment2" name="alertComment2" maxlength="254" rows="5" placeholder="最大254文字まで入力可"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="key2" name="key2">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary w-50" data-dismiss="modal">キャンセル</button>
+                        <button type="submit" class="btn btn-outline-secondary w-50" name="addAlertDB">修正</button>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+        <div class="modal fade" id="modal3" tabindex="-1" role="dialog" aria-labelledby="modalLabel3" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel3">警告削除</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">検索ワード</label>
+                            <input type="text" class="form-control" id="alertWord3" name="alertWord3" maxlength="50" placeholder="最大50文字まで入力可"  disabled="disabled">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">コメント</label>
+                            <textarea class="form-control" id="alertComment3" name="alertComment3" maxlength="254" rows="5" placeholder="最大254文字まで入力可"  disabled="disabled"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="key3" name="key3">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary w-50" data-dismiss="modal">キャンセル</button>
+                        <button type="submit" class="btn btn-outline-secondary w-50" name="delAlertDB">削除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal4" tabindex="-1" role="dialog" aria-labelledby="modalLabel4" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel4">警告全件削除</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        全件削除を実行しますか？
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary w-50" data-dismiss="modal">キャンセル</button>
+                        <button type="submit" class="btn btn-outline-secondary w-50" name="delAlertDBAll">実行</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <button type="submit" class="btn btn-secondary" name="back"><i class="fas fa-arrow-left fa-fw"></i>戻る</button>
+
+    </div>
+</form>
+{% endblock content %}

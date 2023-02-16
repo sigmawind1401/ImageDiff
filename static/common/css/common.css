@@ -1,0 +1,29 @@
+.form-inner {
+    zoom: 1;
+    margin: auto;
+    padding: 10px 5px 10px 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media screen and (min-width: 479px) {
+  .form-inner {
+    max-width: 800px;
+    /* background-color: #00FFFF; */
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .form-inner {
+    max-width: 100%;
+    /* background-color: #00FF00; */
+  }
+}
+
+.form-inner > div.half {
+  width: 50%;
+}
+
+.form-inner > div.quarter {
+  width: 25%;
+}
