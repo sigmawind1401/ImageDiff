@@ -1,6 +1,6 @@
 # ImageDiff
 
-GoogleCloudVisionAPIを利用した画像内テキストの比較Webアプリケーション
+GoogleCloudVisionAPIを利用した画像内テキストの比較を行うWebアプリケーション
 
 機能：
 1. 比較対象を撮影し，撮影画像内のテキストを抽出する
