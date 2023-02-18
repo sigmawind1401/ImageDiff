@@ -16,12 +16,9 @@ Django
 MySQL
 
 ## 利用方法
-1. settings_sample.pyをsettings.pyにリネームして
-   「SECRET_KEY」および「DATABASES」を設定
-2. GoogleCloudVisionAPIを利用しているためGoogleCloudPlatformにて
-   プロジェクトを作成し，サービスアカウントキーをダウンロードする
-3. ダウンロードしたサービスアカウントキー(jsonファイル)へのパスを
-   wsgi.pyに入力
+1. settings_sample.pyをsettings.pyにリネームして「SECRET_KEY」および「DATABASES」を設定
+2. GoogleCloudVisionAPIを利用しているためGoogleCloudPlatformからプロジェクトを作成し，サービスアカウントキーをダウンロードする
+3. ダウンロードしたサービスアカウントキーが記載されているjsonファイルへのパスをwsgi.pyに入力
 
 ## pip list
 | Package                          | Version   |
