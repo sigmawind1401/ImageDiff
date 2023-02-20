@@ -8,8 +8,9 @@
 {% block title_name %}Camera{% endblock title_name %}
 
 {% block additional_script %}
-<script src="{% static 'imagediff/js/camera.js' %}"></script>
+{% comment %} <script src="{% static 'imagediff/js/camera.js' %}"></script> {% endcomment %}
 <link rel="stylesheet" type="text/css" href="{% static "imagediff/css/camera.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "common/css/modal.css" %}">
 {% endblock additional_script %}
 
 {% block content %}
@@ -22,8 +23,8 @@
 {% endif %}
 
 <form action="/imagediff/result/" method="post">{% csrf_token %}
-  <input type="hidden" name="imgData1" value="">
-  <input type="hidden" name="imgData2" value="">
+  <input type="hidden" name="imgData1" id="imgData1" value="">
+  <input type="hidden" name="imgData2" id="imgData2" value="">
   <input type="hidden" name="send_type" value="2">
   <input type="hidden" name="facingMode" value="{{ facingMode }}">
   <a style="display: none" id="download" href="#" download="canvas.jpg"></a>
@@ -32,22 +33,68 @@
   </div>
 </form>
 
-<div id="shutter" data-toggle="modal" data-target="#modal0">
-  <video id="camera" width="" height=""></video>
+<div id="app">
+  <div id="shutter" v-on:click="openModal">
+    <video id="camera" autoplay></video>
+    <open-modal v-show="showContent" v-on:from-child="closeModal"></open-modal>
+  </div>
 </div>
 
-{% comment %} <div id="dialog" style="display: none">
-  <canvas id="reviewImage" width="" height=""></canvas>
-</div> {% endcomment %}
+<script src="https://unpkg.com/vue@3"></script>
+<script>
+  const { createApp  } = Vue;
 
-<div class="modal fade" id="modal0" tabindex="-1" role="dialog" aria-labelledby="modalLabel0" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+  const modalApp = createApp({
+    data() {
+      return {
+        showContent: false
+      };
+    },
+    mounted() {
+      video = document.querySelector("#camera");
+      navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          width: { ideal: 1280 },  // TEXT_DETECTIONの推奨画像サイズ[1024x768]より高く設定
+        }
+      })
+      .then( (mediaStream) => {
+        video.srcObject = mediaStream;
+        video.onloadedmetadata = (e) => {
+          video.play();
+        };
+      })
+      .catch( (err) => {
+        console.log(err.name + ": " + err.message);
+      });
+    },
+    methods: {
+      openModal() {
+        this.showContent = true;  // 撮影画像確認モーダル表示
+        video.pause();  // カメラ一時停止
+        // canvas描画処理 (確認用Image)
+        reviewImage = document.querySelector("#reviewImage");
+        reviewImage.width = 350;
+        reviewImage.height = (reviewImage.width / video.videoWidth) * video.videoHeight;
+        ctx = reviewImage.getContext("2d");
+        ctx.drawImage(video, 0, 0, reviewImage.width, reviewImage.height);
+      },
+      closeModal() {
+        this.showContent = false;
+      },
+    },
+  });
+
+  modalApp.component('open-modal', {
+    template: `
+      <div id="modal-bk" v-on:click="closeEvent">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" v-on:click="stopEvent">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel0">撮影画像確認</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <h5 class="modal-title" id="modalLabel0">撮影画像確認 [[ counter ]]枚目</h5>
+              <button type="button" class="close" v-on:click="closeEvent">
                 <span aria-hidden="true">&times;</span>
-                </button>
+              </button>
             </div>
             <div class="modal-body">
               <div class="text-center">
@@ -55,12 +102,90 @@
               </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-lg w-50" data-dismiss="modal">NG</button>
-                <button type="button" class="btn btn-success btn-lg w-50" name="send">OK</button>
+              <button type="button" class="btn btn-secondary btn-lg w-50" v-on:click="closeEvent">NG</button>
+              <button type="button" class="btn btn-success btn-lg w-50" name="send" v-on:click="sendEvent">OK</button>
             </div>
+          </div>
         </div>
-    </div>
+      </div>
+    `,
+    delimiters: ['[[', ']]'],
+    data() {
+      return {
+        counter: 1
+      };
+    },
+    methods: {
+      closeEvent() {
+        video.play(); // カメラ再開
+        this.$emit('from-child');
+      },
+      stopEvent() {
+        event.stopPropagation();
+      },
+      sendEvent() {
+        if (this.counter === 1) {
+          // canvas描画処理 (送信用Image)
+          sendImage = document.querySelector("#sendImage1");
+          sendImage.width = video.videoWidth;
+          sendImage.height = video.videoHeight;
+          ctx = sendImage.getContext("2d");
+          ctx.drawImage(video, 0, 0, sendImage.width, sendImage.height);
+          $('form input[name=imgData1]').val(sendImage.toDataURL("image/jpeg", 1));
+        } else if (this.counter === 2) {
+          // canvas描画処理 (送信用Image)
+          sendImage = document.querySelector("#sendImage2");
+          sendImage.width = video.videoWidth;
+          sendImage.height = video.videoHeight;
+          ctx = sendImage.getContext("2d");
+          ctx.drawImage(video, 0, 0, sendImage.width, sendImage.height);
+          $('form input[name=imgData2]').val(sendImage.toDataURL("image/jpeg", 1));
+          document.querySelector("#viewResult").click();
+        }
+        this.counter++;
+        video.play(); // カメラ再開
+        this.$emit('from-child');
+      },
+    },
+  });
+
+  modalApp.mount('#app');
+
+</script>
+
+{% comment %}
+<div id="shutter" data-toggle="modal" data-target="#modal0">
+  <video id="camera" width="" height=""></video>
 </div>
+{% endcomment %}
+
+{% comment %} <div id="dialog" style="display: none">
+  <canvas id="reviewImage" width="" height=""></canvas>
+</div> {% endcomment %}
+
+{% comment %}
+<div class="modal fade" id="modal0" tabindex="-1" role="dialog" aria-labelledby="modalLabel0" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel0">撮影画像確認</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <canvas id="reviewImage" width="" height=""></canvas>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-lg w-50" data-dismiss="modal">NG</button>
+        <button type="button" class="btn btn-success btn-lg w-50" name="send">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endcomment %}
 
 <div id="send" style="display: none">
   <canvas id="sendImage1" width="" height=""></canvas>
